@@ -1,77 +1,27 @@
-"""
-This is pure Python implementation of linear search algorithm
+def linear_search(arr,x): #linear search function #
+    temp = 0              # in case the number is not in the sequence it will help #
+    index = []            # in case the number occurs more than once than it will store those indices #
+    for i,val in enumerate(arr):   # iterating the array #
+        if val == x:                # checking if the iterated value is equal to the number to be searched #
+           index.append(i)          # if found the position will be store in this array #
+           temp = 1       
+    
+    return index,temp                # returning the index array #
 
-For doctests run following command:
-python3 -m doctest -v linear_search.py
-
-For manual testing run:
-python3 linear_search.py
-"""
-
-
-def linear_search(sequence: list, target: int) -> int:
-    """A pure Python implementation of a linear search algorithm
-
-    :param sequence: a collection with comparable items (as sorted items not required
-        in Linear Search)
-    :param target: item value to search
-    :return: index of found item or None if item is not found
-
-    Examples:
-    >>> linear_search([0, 5, 7, 10, 15], 0)
-    0
-    >>> linear_search([0, 5, 7, 10, 15], 15)
-    4
-    >>> linear_search([0, 5, 7, 10, 15], 5)
-    1
-    >>> linear_search([0, 5, 7, 10, 15], 6)
-    -1
-    """
-    for index, item in enumerate(sequence):
-        if item == target:
-            return index
-    return -1
+print("ENTER THE ELEMENTS OF THE SEQUENCE SEPARATED BY SPACE:")  # asking the user to get the sequence #
+arr = [int(x) for x in input().split()]                           # storing the elements in the array #
+y = int(input("ENTER THE NUMBER TO BE SEARCHED :"))             # asking the user the value to be searched #
+i,t = linear_search(arr,y)                                        # calling the linear search function #
+if t == 1:                                                 # if the element occurs then we print the index or indices depending upon the frequency #
+    if len(i) == 1:                                        # checking the frequency of occurence #
+       print("NUMER FOUND AT INDEX {}" .format(i))         # printing the indices at which the number occur #
+    else :                                                            
+       print("NUMBER FOUND AT {} INDICES :".format(len(i)))  # if number found at one index then this print statement works #
+       for k in list(range(len(i))):                       
+           print(i[k])
+           
+elif t != 1:
+    print("NUMBER NOT FOUND IN THE GIVEN SEQUENCE")                  # if number not found then this statement will work #
 
 
-def rec_linear_search(sequence: list, low: int, high: int, target: int) -> int:
-    """
-    A pure Python implementation of a recursive linear search algorithm
 
-    :param sequence: a collection with comparable items (as sorted items not required
-        in Linear Search)
-    :param low: Lower bound of the array
-    :param high: Higher bound of the array
-    :param target: The element to be found
-    :return: Index of the key or -1 if key not found
-
-    Examples:
-    >>> rec_linear_search([0, 30, 500, 100, 700], 0, 4, 0)
-    0
-    >>> rec_linear_search([0, 30, 500, 100, 700], 0, 4, 700)
-    4
-    >>> rec_linear_search([0, 30, 500, 100, 700], 0, 4, 30)
-    1
-    >>> rec_linear_search([0, 30, 500, 100, 700], 0, 4, -6)
-    -1
-    """
-    if not (0 <= high < len(sequence) and 0 <= low < len(sequence)):
-        raise Exception("Invalid upper or lower bound!")
-    if high < low:
-        return -1
-    if sequence[low] == target:
-        return low
-    if sequence[high] == target:
-        return high
-    return rec_linear_search(sequence, low + 1, high - 1, target)
-
-
-if __name__ == "__main__":
-    user_input = input("Enter numbers separated by comma:\n").strip()
-    sequence = [int(item.strip()) for item in user_input.split(",")]
-
-    target = int(input("Enter a single number to be found in the list:\n").strip())
-    result = linear_search(sequence, target)
-    if result != -1:
-        print(f"linear_search({sequence}, {target}) = {result}")
-    else:
-        print(f"{target} was not found in {sequence}")
